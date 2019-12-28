@@ -1,0 +1,14 @@
+Main Nouns
+
+1. User
+
+2. Thread
+
+3. Reply
+
+Thread is created by a user -> Thread belongs to a user
+
+Thread can have many replies ->  Thread have many replies
+
+Replies belongs to user and thread
+
