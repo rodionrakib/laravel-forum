@@ -30,9 +30,9 @@ class ThreadTest extends TestCase
 
         $data = raw(Thread::class);
 
-        $this->post('/threads',$data);
+        $response = $this->post('/threads',$data);
 
-        $this->get('threads')->assertSee($data['title']);
+        $this->get($response->headers->get('Location'))->assertSee($data['title']);
 
     }
 
