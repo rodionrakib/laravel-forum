@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Reply;
+use App\Thread;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -17,5 +18,17 @@ class ReplyTest extends TestCase
         $creator = create(User::class);
         $reply = create(Reply::class,['user_id'=>$creator->id]);
         $this->assertEquals($creator->name,$reply->creator->name);
+    }
+
+    /** @test */
+    public function it_require_a_body()
+    {
+        $this->signIn();
+
+        $thread = create(Thread::class);
+
+        $this->post($thread->path().'/replies',raw(Reply::class,['body'=>null]))
+            ->assertSessionHasErrors('body');
+
     }
 }

@@ -42,7 +42,11 @@ class ReplyController extends Controller
      */
     public function store(Request $request,Channel $channel,Thread $thread)
     {
-        // validation
+
+        $request->validate([
+            'body' => 'required'
+        ]);
+
         $reply =     Reply::create([
             'body' => $request->get('body'),
             'user_id' => auth()->id(),

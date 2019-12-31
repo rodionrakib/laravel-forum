@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Channel;
 use App\Reply;
 use App\Thread;
 use App\User;
@@ -43,5 +44,42 @@ class ThreadTest extends TestCase
     {
        $thread =  create(Thread::class);
        $this->assertEquals('/threads/'.$thread->channel->slug.'/'.$thread->id ,$thread->path());
+    }
+
+    /** @test */
+    public function it_require_a_title()
+    {
+        $this->signIn();
+        $this->publishThread(['title'=> null])
+            ->assertSessionHasErrors('title');
+    }
+
+    /** @test */
+    public function it_require_a_body()
+    {
+        $this->signIn();
+        $this->publishThread(['body'=> null])
+            ->assertSessionHasErrors('body');
+    }
+
+    /** @test */
+    public function it_require_a_existing_channel_id()
+    {
+        $this->signIn();
+
+        factory(Channel::class,3)->create();
+
+        $this->publishThread(['channel_id'=> null])
+            ->assertSessionHasErrors('channel_id');
+
+        $this->publishThread(['channel_id'=> 1000])
+            ->assertSessionHasErrors('channel_id');
+    }
+
+    private function publishThread($data)
+    {
+        $thread = make(Thread::class,$data);
+        return $this->post('/threads',$thread->toArray());
+
     }
 }
