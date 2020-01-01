@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Channel;
 use App\Reply;
 use App\Thread;
 use App\User;
@@ -54,6 +55,21 @@ class BrowsThreadTest extends TestCase
         // when anyone visit single thread page
         $this->get($this->thread->path())->assertSee($reply->body);
         // they can view all the replies to that thread
+    }
+
+    /** @test */
+    public function user_can_filter_threads_by_channel()
+    {
+        $this->withoutExceptionHandling();
+
+        $channel = create(Channel::class);
+
+        $threadInChannel = create(Thread::class,['channel_id'=>$channel->id]);
+        $threadNotInChannel = create(Thread::class);
+
+        $this->get('threads/'.$channel->slug)
+            ->assertSee($threadInChannel->title)
+            ->assertDontSee($threadNotInChannel);
     }
 
 
