@@ -13,9 +13,11 @@
                             <div class="form-group">
                                 <label for="exampleFormControlSelect1">Select Channel</label>
                                 <select class="form-control" id="exampleFormControlSelect1" name="channel_id">
+                                    <option value="">Choose One</option>
                                     @foreach(\App\Channel::all() as $channel)
-                                        <option value="{{$channel->id}}">{{$channel->name}}
-                                        {{old('channel_id') == $channel->id ? 'selected' : ''}}
+                                        <option value="{{$channel->id}}"
+                                                {{old('channel_id') == $channel->id ? 'selected' : ''}}>
+                                            {{$channel->name}}
                                         </option>
                                     @endforeach
                                 </select>
