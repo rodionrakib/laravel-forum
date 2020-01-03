@@ -72,6 +72,22 @@ class BrowsThreadTest extends TestCase
             ->assertDontSee($threadNotInChannel);
     }
 
+    /** @test */
+    public function user_can_filter_thread_by_name()
+    {
+        // give we have two thread one by john and one not by jon
+        $jon = create(User::class,['name'=>'jon']);
+
+        $threadByJon = create(Thread::class,['user_id'=>$jon->id]);
+        $threadNotByJon = create(Thread::class);
+
+        // when he visit threads?by=jon
+        $this->get('threads?by=jon')
+            ->assertSee($threadByJon->title)
+            ->assertDontSee($threadNotByJon->title);
+        // he should see his thread but not other
+    }
+
 
 
 
