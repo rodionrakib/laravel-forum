@@ -5,8 +5,9 @@ namespace App\Filter;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
-class Filter
+abstract class Filter
 {
     public $request;
     public $builder;
@@ -16,13 +17,30 @@ class Filter
         $this->request = $request;
     }
 
-    public function apply($builder)
+    /**
+     * @param Builder $builder
+     */
+    public function apply(Builder $builder)
     {
         $this->builder = $builder;
 
-        if (!$userName = $this->request->query('by')) return $builder;
-        $this->by($userName);
 
+        foreach ($this->fields() as $field => $value) {
+            $method = $field;
+            if (method_exists($this, $method)) {
+                call_user_func_array([$this, $method], (array)$value);
+            }
+        }
 
+    }
+
+    /**
+     * @return array
+     */
+    protected function fields(): array
+    {
+        return array_filter(
+            array_map('trim', $this->request->all())
+        );
     }
 }

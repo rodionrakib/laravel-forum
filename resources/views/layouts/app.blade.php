@@ -40,7 +40,7 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="/threads">Threads</a>
                                 @if(auth()->check())
-                                <a class="dropdown-item" href="/threads?by={{auth()->user()->name}}">My Thread</a>
+                                <a class="dropdown-item" href="/threads?name={{auth()->user()->name}}">My Thread</a>
                                 @endif
                             </div>
                         </div>

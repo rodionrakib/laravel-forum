@@ -12,15 +12,13 @@ class ThreadFilter extends Filter
 {
 
 
-    public function by($userName)
+    public function name($userName)
     {
-
-
         $user = User::where('name', $userName)->firstOrFail();
-
         return $this->builder->where('user_id', $user->id);
 
 
     }
+
 
 }

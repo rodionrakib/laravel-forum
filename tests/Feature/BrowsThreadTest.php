@@ -82,7 +82,7 @@ class BrowsThreadTest extends TestCase
         $threadNotByJon = create(Thread::class);
 
         // when he visit threads?by=jon
-        $this->get('threads?by=jon')
+        $this->get('threads?name=jon')
             ->assertSee($threadByJon->title)
             ->assertDontSee($threadNotByJon->title);
         // he should see his thread but not other
