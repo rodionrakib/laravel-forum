@@ -3,12 +3,21 @@
 namespace App;
 
 use App\Filter\ThreadFilter;
+use App\Scopes\ThreadScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
     protected $guarded=[];
+
+//    protected $withCount=['replies'];
+
+    public static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new ThreadScope());
+    }
 
     public function replies()
     {

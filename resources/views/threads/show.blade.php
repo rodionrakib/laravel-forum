@@ -15,7 +15,7 @@
                     <div class="card">
                         <div class="card-header"> Replies</div>
                         <div class="card-body">
-                           @forelse($thread->replies as $reply)
+                           @forelse( $replies as $reply)
                                 <section>
                                     <p> {{$reply->creator->name}} said at {{$reply->created_at->diffForHumans()}} </p>
                                     <div>
@@ -25,6 +25,7 @@
                                @empty
                                Be the First one to comment
                            @endforelse
+                            {{$replies->links()}}
                         </div>
                     </div>
                     @if(auth()->check())
@@ -51,6 +52,7 @@
                     <div class="card-header"> Meta Data</div>
                     <div class="card-body">
                        <p>This thread is posted at {{$thread->created_at->diffForHumans()}}</p>
+                        <p>Total  {{$thread->replies_count}} {{\Illuminate\Support\Str::plural('reply',$thread->replies_count)}}</p>
                     </div>
                 </div>
             </div>
