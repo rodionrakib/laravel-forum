@@ -24,7 +24,12 @@ class ThreadController extends Controller
      */
     public function index(Channel $channel,ThreadFilter $filters)
     {
+<<<<<<< HEAD
         $threads = Thread::latest();
+=======
+
+
+>>>>>>> otp-send
 
         if ($channel->exists) {
            $threads->where('channel_id',$channel->id);
@@ -32,6 +37,10 @@ class ThreadController extends Controller
 
 //        $threads = $this->getThreads($channel);
         $threads = Thread::filter($filters)->get();
+
+        if(\request()->wantsJson()){
+            return $threads;
+       }
 
         return view('threads.index',compact('threads'));
     }

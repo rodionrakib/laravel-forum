@@ -1,18 +1,18 @@
 <?php
 
 
-function create($className,$attributes=[])
+function create($className,$attributes=[],$number = null)
 {
-    return factory($className)->create($attributes);
+    return factory($className,$number)->create($attributes);
 }
 
-function make($className,$attributes=[])
+function make($className,$attributes=[],$number = null)
 {
-    return factory($className)->make($attributes);
+    return factory($className,$number)->make($attributes);
 }
 
-function raw($className,$attributes=[])
+function raw($className,$attributes=[],$number = null)
 {
-    return factory($className)->raw($attributes);
+    return factory($className,$number)->raw($attributes);
 }
 

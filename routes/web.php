@@ -26,4 +26,8 @@ Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store');
 Route::get('/threads/{channel}/{thread}', 'ThreadController@show')->name('threads.show');
 
 
+// For otp send test
+
+Route::get('/otp-show','OtpController@show');
+
 
