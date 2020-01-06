@@ -101,17 +101,18 @@ class BrowsThreadTest extends TestCase
         $threadWithTwoReplies = create(Thread::class);
         create(Reply::class,['thread_id'=>$threadWithTwoReplies->id],2);
 
+        $threadWithFiveReplies = create(Thread::class);
+        create(Reply::class,['thread_id'=>$threadWithFiveReplies->id],5);
+
 
         $threadWithNoReplies = $this->thread;
 
         // when we visit threads?popularity=1
         $response = $this->getJson('threads?popularity=1')->json();
 
-        dd($response);
-
 
         // we should see one with 3 replies
-        $this->assertEquals([3,2,0],array_column($response,'replies_count')) ;
+        $this->assertEquals([5,3,2,0],array_column($response,'replies_count')) ;
 
         // then one with 2 replies
         // then one with 0 reply in order

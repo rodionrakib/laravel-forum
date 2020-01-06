@@ -24,23 +24,12 @@ class ThreadController extends Controller
      */
     public function index(Channel $channel,ThreadFilter $filters)
     {
-<<<<<<< HEAD
-        $threads = Thread::latest();
-=======
 
-
->>>>>>> otp-send
-
-        if ($channel->exists) {
-           $threads->where('channel_id',$channel->id);
-        }
-
-//        $threads = $this->getThreads($channel);
-        $threads = Thread::filter($filters)->get();
+        $threads = $this->getThreads($channel,$filters);
 
         if(\request()->wantsJson()){
             return $threads;
-       }
+        }
 
         return view('threads.index',compact('threads'));
     }
@@ -132,19 +121,15 @@ class ThreadController extends Controller
      * @param Request $request
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Relations\HasMany
      */
-    protected function getThreads(Channel $channel)
+    protected function getThreads(Channel $channel,$filters)
     {
+        $threads = Thread::latest()->filter($filters);
+
+
         if ($channel->exists) {
-            $threads = $channel->threads()->latest();
-        } else {
-            $threads = Thread::latest();
+            $threads->where('channel_id',$channel->id);
         }
 
-        if ($userName = \request()->query('by')) {
-            $user = User::where('name', $userName)->firstOrFail();
-            $threads = Thread::where('user_id', $user->id)->latest();
-        }
-        $threads = $threads->get();
-        return $threads;
+        return $threads->get();
     }
 }

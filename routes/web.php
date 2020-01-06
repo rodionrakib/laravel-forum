@@ -27,7 +27,7 @@ Route::get('/threads/{channel}/{thread}', 'ThreadController@show')->name('thread
 
 
 // For otp send test
-
+Route::post('replies/{reply}/favourites','FavouriteController@store');
 Route::get('/otp-show','OtpController@show');
 
 

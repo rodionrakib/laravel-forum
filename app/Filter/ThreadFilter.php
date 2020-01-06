@@ -19,6 +19,13 @@ class ThreadFilter extends Filter
 
 
     }
+    public function popularity($value)
+    {
+        if ($value){
+            $this->builder->getQuery()->orders=[];
+            $this->builder->orderBy('replies_count','desc');
+        }
+    }
 
 
 }
