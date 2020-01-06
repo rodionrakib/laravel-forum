@@ -24,6 +24,9 @@ class ThreadController extends Controller
      */
     public function index(Channel $channel,ThreadFilter $filters)
     {
+
+
+
         if ($channel->exists) {
             $threads = $channel->threads()->latest();
         } else {
@@ -33,6 +36,10 @@ class ThreadController extends Controller
 
 //        $threads = $this->getThreads($channel);
         $threads = Thread::filter($filters)->get();
+
+        if(\request()->wantsJson()){
+            return $threads;
+       }
 
         return view('threads.index',compact('threads'));
     }

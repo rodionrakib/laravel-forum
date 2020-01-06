@@ -88,6 +88,36 @@ class BrowsThreadTest extends TestCase
         // he should see his thread but not other
     }
 
+    /** @test */
+    public function threads_can_be_filtered_by_popularity()
+    {
+        // given
+            // we have three thread one with 3 replies one with 2 replies one with 0 reply
+        $threadWithThreeReplies = create(Thread::class);
+        create(Reply::class,['thread_id'=>$threadWithThreeReplies->id],3);
+
+
+
+        $threadWithTwoReplies = create(Thread::class);
+        create(Reply::class,['thread_id'=>$threadWithTwoReplies->id],2);
+
+
+        $threadWithNoReplies = $this->thread;
+
+        // when we visit threads?popularity=1
+        $response = $this->getJson('threads?popularity=1')->json();
+
+        dd($response);
+
+
+        // we should see one with 3 replies
+        $this->assertEquals([3,2,0],array_column($response,'replies_count')) ;
+
+        // then one with 2 replies
+        // then one with 0 reply in order
+
+    }
+
 
 
 
