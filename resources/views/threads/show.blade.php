@@ -2,11 +2,10 @@
 
 @section('content')
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row">
             <div class="col-md-8">
                 <div class="card">
                     <h3 class="card-header">{{$thread->title}}</h3>
-
                     <div class="card-body">
                         <article>
                             <p> Posted By {{$thread->owner->name}} {{$thread->created_at->diffForHumans()}} </p>
@@ -15,7 +14,6 @@
                     </div>
                     <div class="card">
                         <div class="card-header"> Replies</div>
-
                         <div class="card-body">
                            @forelse($thread->replies as $reply)
                                 <section>
@@ -33,7 +31,6 @@
 
                     <div class="card">
                         <div class="card-header"> Add Reply</div>
-
                         <div class="card-body">
                            <form method="post" action="{{$thread->path()}}/replies">
                                @csrf
@@ -47,8 +44,16 @@
                         @else
                         <p> <a href="{{route('login')}}">Please log in </a> to add reply</p>
                     @endif
-
                 </div>
-        </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header"> Meta Data</div>
+                    <div class="card-body">
+                       <p>This thread is posted at {{$thread->created_at->diffForHumans()}}</p>
+                    </div>
+                </div>
+            </div>
+
     </div>
 @endsection
