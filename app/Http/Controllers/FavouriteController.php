@@ -17,12 +17,12 @@ class FavouriteController extends Controller
 
     public function store(Reply $reply)
     {
-        $reply->favourites()->create(['user_id'=>auth()->id()]);
+        if(!$reply->isAlreadyFavorated()){
+            $reply->favourite();
+        }
+        return redirect()->back();
 
-//        Favourite::create([
-//            'user_id' => auth()->id(),
-//            'favorited_id' => $reply->id,
-//            'favorited_type' => get_class($reply)
-//        ]);
     }
+
+
 }

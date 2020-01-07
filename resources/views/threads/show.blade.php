@@ -18,9 +18,20 @@
                            @forelse( $replies as $reply)
                                 <section>
                                     <p> {{$reply->creator->name}} said at {{$reply->created_at->diffForHumans()}} </p>
+                                    @if(auth()->check())
+                                    <form method="post" action="/replies/{{$reply->id}}/favourites"
+                                    style="float: right"
+                                    >
+                                        @csrf
+                                        <input class="btn btn-primary" type="submit" value="Favourite"
+                                        {{ $reply->isAlreadyFavorated() ? 'disabled':''  }}
+                                        >
+                                    </form>
+                                    @endif
                                     <div>
                                         {{$reply->body}}
                                     </div>
+
                                 </section><hr>
                                @empty
                                Be the First one to comment

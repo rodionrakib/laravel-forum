@@ -35,4 +35,22 @@ class FavouriteTest extends TestCase
 
         $this->assertCount(1,$reply->favourites);
     }
+
+    /** @test */
+    public function an_authenticated_user_can_not_favouite_a_reply_many_times()
+    {
+        $this->signIn();
+
+        $this->withoutExceptionHandling();
+
+        $reply = create(Reply::class);
+
+        $this->post('replies/'.$reply->id.'/favourites');
+        $this->post('replies/'.$reply->id.'/favourites');
+
+
+        $this->assertCount(1,$reply->favourites);
+
+
+    }
 }
