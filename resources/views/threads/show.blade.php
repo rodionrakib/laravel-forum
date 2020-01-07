@@ -16,16 +16,13 @@
                         <div class="card-header"> Replies</div>
                         <div class="card-body">
                            @forelse( $replies as $reply)
-                                <section>
                                     <p> {{$reply->creator->name}} said at {{$reply->created_at->diffForHumans()}} </p>
                                     @if(auth()->check())
-                                    <form method="post" action="/replies/{{$reply->id}}/favourites"
-                                    style="float: right"
-                                    >
+                                    <form method="post" action="/replies/{{$reply->id}}/favourites">
                                         @csrf
-                                        <input class="btn btn-primary" type="submit" value="Favourite"
-                                        {{ $reply->isAlreadyFavorated() ? 'disabled':''  }}
-                                        >
+                                        <button class="btn btn-primary" type="submit" >
+                                            {{\Illuminate\Support\Str::plural('Cat',$reply->favourites_count)}}
+                                        </button>
                                     </form>
                                     @endif
                                     <div>
