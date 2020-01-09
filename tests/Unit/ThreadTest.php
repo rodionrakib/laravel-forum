@@ -76,6 +76,14 @@ class ThreadTest extends TestCase
             ->assertSessionHasErrors('channel_id');
     }
 
+    /** @test */
+    public function user_can_have_threads()
+    {
+        $user = create(User::class);
+        create(Thread::class,['user_id'=>$user->id],3);
+        $this->assertCount(3,$user->threads);
+    }
+
     private function publishThread($data)
     {
         $thread = make(Thread::class,$data);

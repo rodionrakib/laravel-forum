@@ -11,6 +11,7 @@
                         @forelse($threads as $thread)
                             <article>
                                 <h2> <a href="{{$thread->path()}}">{{$thread->title}}</a></h2>
+                                <h4> Posted By <a href="/profiles/{{$thread->owner->name}}">{{$thread->owner->name}}</a> </h4>
                                 <p>Total  {{$thread->replies_count}} {{\Illuminate\Support\Str::plural('reply',$thread->replies_count)}}</p>
                                 <div> {{$thread->body}} </div>
                             </article>

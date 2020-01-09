@@ -109,11 +109,15 @@ class ThreadController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Thread  $thread
+     * @param  \App\Channel  $channel
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Thread $thread)
+    public function destroy(Channel $channel,Thread $thread)
     {
-        //
+//        abort_unless($thread->user_id == auth()->id(),403);
+        $this->authorize('delete',$thread);
+        $thread->delete();
+        return redirect('/threads');
     }
 
     /**
@@ -123,7 +127,7 @@ class ThreadController extends Controller
      */
     protected function getThreads(Channel $channel,$filters)
     {
-        $threads = Thread::with('channel')->latest()->filter($filters);
+        $threads = Thread::with(['channel','owner'])->latest()->filter($filters);
 
 
         if ($channel->exists) {

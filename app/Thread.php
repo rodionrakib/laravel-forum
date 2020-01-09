@@ -17,6 +17,9 @@ class Thread extends Model
     {
         parent::boot();
         static::addGlobalScope(new ThreadScope());
+        static::deleting(function($thread){
+            $thread->replies()->delete();
+        });
     }
 
     public function replies()

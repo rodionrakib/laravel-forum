@@ -8,7 +8,14 @@
                     <h3 class="card-header">{{$thread->title}}</h3>
                     <div class="card-body">
                         <article>
-                            <p> Posted By {{$thread->owner->name}} {{$thread->created_at->diffForHumans()}} </p>
+                            <p> Posted By <a href="/profiles/{{$thread->owner->name}}">{{$thread->owner->name}} </a>{{$thread->created_at->diffForHumans()}} </p>
+                            @can('delete',$thread)
+                            <form method="POST" action="{{$thread->path()}}">
+                                @csrf
+                                @method('DELETE')
+                                <button  type="submit"> Delete </button>
+                            </form>
+                            @endcan
                             <div> {{$thread->body}} </div>
                         </article>
                     </div>
@@ -16,12 +23,12 @@
                         <div class="card-header"> Replies</div>
                         <div class="card-body">
                            @forelse( $replies as $reply)
-                                    <p> {{$reply->creator->name}} said at {{$reply->created_at->diffForHumans()}} </p>
+                                <p> <a href="/profiles/{{$reply->creator->name}}"> {{$reply->creator->name}} </a> said at {{$reply->created_at->diffForHumans()}} </p>
                                     @if(auth()->check())
                                     <form method="post" action="/replies/{{$reply->id}}/favourites">
                                         @csrf
                                         <button class="btn btn-primary" type="submit" >
-                                            {{\Illuminate\Support\Str::plural('Cat',$reply->favourites_count)}}
+                                            {{\Illuminate\Support\Str::plural('Favourite',$reply->favourites_count)}}
                                         </button>
                                     </form>
                                     @endif
