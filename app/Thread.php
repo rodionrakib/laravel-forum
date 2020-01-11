@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
+    use RecordActivity;
+
     protected $guarded=[];
 
 //    protected $withCount=['replies'];
@@ -17,9 +19,24 @@ class Thread extends Model
     {
         parent::boot();
         static::addGlobalScope(new ThreadScope());
+
         static::deleting(function($thread){
             $thread->replies()->delete();
         });
+
+        foreach (static::getRecordedEvents() as $event){
+            static::$event(function($thread) use ($event){
+                $thread->recordActivity($event);
+
+            });
+        }
+
+
+    }
+
+    protected static function getRecordedEvents()
+    {
+        return ['created','updated','deleted'];
     }
 
     public function replies()
@@ -44,4 +61,13 @@ class Thread extends Model
     {
         $filters->apply($query);
     }
+
+    public function activities()
+    {
+        return $this->morphMany(Activity::class,'subject');
+    }
+
+
+
+
 }

@@ -9,10 +9,11 @@ class ProfileController extends Controller
 {
     public function show(User $user)
     {
-        $threads = $user->threads;
+        $activities = $user->activities()->with('subject')->get();
+
         return view('profiles.show',[
             'profile_user'=>$user,
-            'threads' => $threads
+            'activities' => $activities
         ]);
     }
 }

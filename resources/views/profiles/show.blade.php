@@ -17,13 +17,19 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-header">Threads</div>
+                    <div class="card-header">Recent Activities</div>
 
                     <div class="card-body">
-                       @forelse($threads as $thread)
-                           <h3> <a href="{{$thread->path()}}">{{$thread->title}}</a> </h3>
+                       @forelse($activities as $activity)
                            <div>
-                               {{$thread->body}}
+                               @include("profiles.activities.{$activity->event_type}")
+{{--                               @if($activity->event_type == 'thread_created')--}}
+{{--                                    <p> He created a thread {{$activity->subject->title}}</p>--}}
+{{--                               @endif--}}
+{{--                               @if($activity->event_type == 'reply_created')--}}
+{{--                                   <p> He Replied a thread</p>--}}
+{{--                               @endif--}}
+
                            </div>
                            @empty
                            <p>No Threads Yet!</p>
