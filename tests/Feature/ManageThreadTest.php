@@ -30,6 +30,23 @@ class ManageThreadTest extends TestCase
         $this->assertCount(0,$thread->replies);
     }
 
+    /** @test */
+    public function when_a_thread_is_deleted_its_activities_are_also_deleted()
+    {
+        $this->withoutExceptionHandling();
+        $owner = create(User::class);
+        $this->signIn($owner);
+
+        $thread = create(Thread::class,['user_id'=>$owner->id]);
+
+        create(Reply::class,['thread_id'=>$thread->id]);
+
+        $this->delete($thread->path());
+
+        $this->assertDatabaseMissing('activities',['subject_id'=>$thread->id,'subject_type',Thread::class]);
+
+    }
+
 
 
     

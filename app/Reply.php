@@ -54,5 +54,10 @@ class Reply extends Model
         return ['created'];
     }
 
+    public function thread()
+    {
+        return $this->belongsTo(Thread::class);
+    }
+
     //
 }

@@ -24,8 +24,10 @@ class ProfileTest extends TestCase
     public function profile_page_shows_his_all_posted_threads()
     {
         $this->withoutExceptionHandling();
-        $writer = create(User::class);
-        $thread =create(Thread::class,['user_id'=>$writer->id]);
-        $this->get('/profiles/'.$writer->name)->assertSee($thread->title);
+
+        $this->signIn();
+
+        $thread =create(Thread::class,['user_id'=>auth()->id()]);
+        $this->get('/profiles/'.auth()->user()->name)->assertSee($thread->title);
     }
 }

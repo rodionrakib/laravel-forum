@@ -18,21 +18,16 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">Recent Activities</div>
-
                     <div class="card-body">
-                       @forelse($activities as $activity)
+                       @forelse($activities as $date=>$activity)
+                            <div class="page-header">{{$date}}</div>
+                           @foreach($activity as $record)
                            <div>
-                               @include("profiles.activities.{$activity->event_type}")
-{{--                               @if($activity->event_type == 'thread_created')--}}
-{{--                                    <p> He created a thread {{$activity->subject->title}}</p>--}}
-{{--                               @endif--}}
-{{--                               @if($activity->event_type == 'reply_created')--}}
-{{--                                   <p> He Replied a thread</p>--}}
-{{--                               @endif--}}
-
+                               @include("profiles.activities.{$record->event_type}")
                            </div>
-                           @empty
-                           <p>No Threads Yet!</p>
+                           @endforeach
+                        @empty
+                            <p>No Activity Yet!</p>
                        @endforelse
                     </div>
                 </div>

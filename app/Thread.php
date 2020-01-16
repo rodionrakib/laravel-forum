@@ -22,6 +22,7 @@ class Thread extends Model
 
         static::deleting(function($thread){
             $thread->replies()->delete();
+            $thread->activities()->delete();
         });
 
         foreach (static::getRecordedEvents() as $event){
@@ -36,7 +37,7 @@ class Thread extends Model
 
     protected static function getRecordedEvents()
     {
-        return ['created','updated','deleted'];
+        return ['created','updated'];
     }
 
     public function replies()
