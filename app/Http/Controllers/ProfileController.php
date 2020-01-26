@@ -11,6 +11,7 @@ class ProfileController extends Controller
     {
         $activities = $this->getActivities($user);
 
+
         return view('profiles.show',[
             'profile_user'=>$user,
             'activities' => $activities

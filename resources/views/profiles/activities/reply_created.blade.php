@@ -1,6 +1,6 @@
 @component('profiles.activities.activily')
     @slot('heading')
-        <div class="card-header">{{$profile_user->name}} Replied To <a href="{{$record->subject->thread->path()}}"> {{$record->subject->thread->title}} </a></div>
+        <div class="card-header">{{$profile_user->name}} Replied To  {{dd($record->subject)}} <a href="{{$record->subject->thread->path()}}"> {{$record->subject->thread->title}} </a></div>
     @endslot
 
     @slot('body')

@@ -57,6 +57,19 @@ class ThreadPolicy
     }
 
     /**
+     * Determine whether the user can update the thread.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Thread  $thread
+     * @return mixed
+     */
+    public function manage(User $user, Thread $thread)
+    {
+        return $user->id == $thread->user_id;
+    }
+
+
+    /**
      * Determine whether the user can delete the thread.
      *
      * @param  \App\User  $user

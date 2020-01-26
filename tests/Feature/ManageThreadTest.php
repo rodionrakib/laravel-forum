@@ -49,24 +49,33 @@ class ManageThreadTest extends TestCase
 
 
 
-    
+
     /** @test */
-    public function unauthorize_user_cannot_delete_threads()
+    public function unauthorized_cant_update_his_thread()
     {
-
-
+//        $this->withoutExceptionHandling();
+        $this->signIn();
         $thread = create(Thread::class);
-        $this->delete($thread->path())->assertRedirect('/login');
+         $this->patch($thread->path(),[
+            'title' => 'Changed',
+            'body' => 'new body'
+        ]);
 
+        $this->assertDatabaseMissing('threads',['id'=>$thread->id,'title'=>'Changed','body'=>'new body']);
+
+    }
+
+    /** @test */
+    public function owner_can_update_his_thread()
+    {
         $this->withoutExceptionHandling();
-
-        $user = create(User::class);
-
-        $this->signIn($user);
-
-        $this->expectException('Illuminate\Auth\Access\AuthorizationException');
-
-        $this->delete($thread->path())->assertStatus(403);
+        $this->signIn();
+        $thread = create(Thread::class,['user_id'=>auth()->id()]);
+        $this->patch($thread->path(),[
+            'title' => 'Changed',
+            'body' => 'new body'
+        ]);
+        $this->assertDatabaseHas('threads',['id'=>$thread->id,'title'=>'Changed','body'=>'new body']);
 
     }
 }

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Reply;
+use App\Thread;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -53,4 +54,8 @@ class FavouriteTest extends TestCase
 
 
     }
+
+
+
+
 }
