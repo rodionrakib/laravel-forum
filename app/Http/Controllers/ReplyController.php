@@ -6,6 +6,7 @@ use App\Channel;
 use App\Reply;
 use App\Thread;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ReplyController extends Controller
 {
@@ -38,7 +39,7 @@ class ReplyController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param
      */
     public function store(Request $request,Channel $channel,Thread $thread)
     {
@@ -59,8 +60,7 @@ class ReplyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Reply  $reply
-     * @return \Illuminate\Http\Response
+     * @param  Reply  $reply
      */
     public function show(Reply $reply)
     {
@@ -83,11 +83,13 @@ class ReplyController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Reply  $reply
-     * @return \Illuminate\Http\Response
+     * @return  Response
      */
     public function update(Request $request, Reply $reply)
     {
-        //
+        $this->authorize('update',$reply);
+        $reply->update(['body'=>$request->get('body')]);
+        return back();
     }
 
     /**
@@ -98,6 +100,9 @@ class ReplyController extends Controller
      */
     public function destroy(Reply $reply)
     {
-        //
+        $this->authorize('delete',$reply);
+        // activity also should be deleted and if its favorated by anyone ?
+        $reply->delete();
+        return back();
     }
 }

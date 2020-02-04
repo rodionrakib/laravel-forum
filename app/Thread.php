@@ -72,6 +72,29 @@ class Thread extends Model
         return $this->morphMany(Activity::class,'subject');
     }
 
+    public function subscribe($userId = null)
+    {
+            $this->subscribers()->create([ 'user_id' =>
+                $userId ? $userId : auth()->id()
+            ]);
+
+    }
+
+
+
+    public function unsubscribe($userId = null)
+    {
+        $this->subscribers()->where('user_id',
+            $userId ? $userId :auth()->id()
+            )->delete();
+
+    }
+
+    public function subscribers()
+    {
+       return  $this->hasMany(ThreadSubscription::class);
+
+    }
 
 
 

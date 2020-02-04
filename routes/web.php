@@ -26,7 +26,12 @@ Route::post('/threads/{channel}/{thread}/replies', 'ReplyController@store');
 Route::get('/threads/{channel}/{thread}', 'ThreadController@show')->name('threads.show');
 Route::patch('/threads/{channel}/{thread}', 'ThreadController@update')->name('threads.show');
 Route::delete('/threads/{channel}/{thread}', 'ThreadController@destroy');
+Route::post('/threads/{channel}/{thread}/subscriptions', 'SubscriptionController@store');
 //Route::post('/threads/{thread}/favourites');
+
+Route::delete('/replies/{reply}', 'ReplyController@destroy');
+Route::patch('/replies/{reply}', 'ReplyController@update');
+
 
 // profile
 Route::get('/profiles/{user}','ProfileController@show');

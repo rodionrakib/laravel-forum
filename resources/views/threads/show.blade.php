@@ -15,6 +15,7 @@
                                 @method('DELETE')
                                 <button  type="submit"> Delete </button>
                             </form>
+
                             @endcan
                             <div> {{$thread->body}} </div>
                         </article>
@@ -35,6 +36,19 @@
                                     <div>
                                         {{$reply->body}}
                                     </div>
+                                    @can('delete',$reply)
+                                    <form method="POST" action="/replies/{{$reply->id}}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button  type="submit"> Delete </button>
+                                    </form>
+                                    <form method="POST" action="/replies/{{$reply->id}}">
+                                        @csrf
+                                        @method('PATCH')
+                                        <textarea name="body"> {{$reply->body}} </textarea>
+                                        <button  type="submit"> Update </button>
+                                    </form>
+                                    @endcan
 
                                 </section><hr>
                                @empty

@@ -79,6 +79,43 @@ class ThreadTest extends TestCase
         $this->expectException('Illuminate\Auth\AuthenticationException');
         $this->post($this->thread->path().'/replies',raw(Reply::class));
 
+    }
+
+    /** @test */
+    public function thread_can_be_subscribed_to()
+    {
+        //  given we have a thread
+        $thread = create(Thread::class);
+
+        // a user subscribe the thread
+        $this->signIn();
+
+        $thread->subscribe();
+
+
+        // we should be able to fetch all thread that the user has subscribed to
+
+        $this->assertEquals( 1, $thread->subscribers()->where('user_id',auth()->id())->count());
+
+    }
+
+
+    /** @test */
+    public function thread_can_be_unsubscribe()
+    {
+        //  given we have a thread
+        $thread = create(Thread::class);
+        $user = create(User::class);
+        $thread->subscribe($user->id);
+        $this->signIn();
+        $thread->subscribe(auth()->id());
+
+        // a user subscribe the thread
+        $this->assertEquals(2,$thread->subscribers()->count());
+
+        $thread->unsubscribe($user->id);
+
+        $this->assertEquals(1,$thread->subscribers()->count());
 
     }
 }
